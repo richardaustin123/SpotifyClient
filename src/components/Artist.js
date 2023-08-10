@@ -16,9 +16,27 @@ function Artist() {
   let [artist, setArtist] = useState('')
   let [artistInfo, setArtistInfo] = useState([])
 
-  function getArtist() {
+  function getArtistIDFromName() {
     // Get the artist from spotify API
-    fetch(endpoint + artist, {
+    fetch('https://api.spotify.com/v1/search?q=' + artist + '&type=artist', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + config.access_token
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      getArtist(data.artists.items[0].id)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  function getArtist(id) {
+    // Get the artist from spotify API
+    fetch(endpoint + id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + config.access_token
@@ -40,7 +58,8 @@ function Artist() {
 
       <h1>Search Artist</h1>
       <Form.Control type="text" placeholder="Search Artist" onChange={(e) => setArtist(e.target.value)} />
-      <Button onClick={getArtist}>Click me</Button>
+      <Button onClick={getArtistIDFromName}>Click me</Button>
+      
 
       {artistInfo.length !== 0 &&
         <div>
