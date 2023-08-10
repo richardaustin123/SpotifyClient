@@ -5,7 +5,7 @@ import Artist from './components/Artist';
 function App() {
   return (
     <div className="App">
-      <h1>Spotify App</h1>
+      <h1 className='text-center fw-bold'>Spotify App</h1>
       <Artist />
     </div>
   );
