@@ -10,7 +10,11 @@ import Image from 'react-bootstrap/Image'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import Form from 'react-bootstrap/Form'
 
-// TEST ID: 1Ffb6ejR6Fe5IamqA5oRUF, 630wzNP2OL7fl4Xl0GnMWq
+import { getToken } from '../handlers/tokenHandler'
+
+import ArtistTopTracks from './ArtistTopTracks'
+import ArtistAlbums from './ArtistAlbums'
+import ArtistRelatedArtists from './ArtistRelatedArtists'
 
 function Artist() {
 
@@ -19,31 +23,30 @@ function Artist() {
   
   let [artist, setArtist] = useState('')
   let [artistInfo, setArtistInfo] = useState([])
+  let [id, setID] = useState('')
 
-  function getArtistIDFromName() {
+  async function getArtistIDFromName() {
+    const token = await getToken()
     // Get the artist from spotify API
-    fetch('https://api.spotify.com/v1/search?q=' + artist + '&type=artist', {
+    const response = await fetch('https://api.spotify.com/v1/search?q=' + artist + '&type=artist', {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer ' + config.access_token
+        'Authorization': 'Bearer ' + token
       }
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      getArtist(data.artists.items[0].id)
-    })
-    .catch(error => {
-      console.log(error)
-    })
+
+    const data = await response.json()
+    console.log(data)
+    setID(data.artists.items[0].id)
+    getArtist(data.artists.items[0].id, token)    
   }
 
-  function getArtist(id) {
+  function getArtist(id, token) {
     // Get the artist from spotify API
     fetch(endpoint + id, {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer ' + config.access_token
+        'Authorization': 'Bearer ' + token
       }
     })
     .then(response => response.json())
@@ -64,24 +67,29 @@ function Artist() {
   }
 
   return (
-    <div className="center-div">
+    <div className="center-div" >
       <Container>
       <h2 className='text-start fw-semibold'>Search Artist</h2>
         <Stack direction="horizontal" gap={3}>
-          <Form.Control
+
+            <Form.Control
             type="text"
             placeholder="Search Artist"
             onChange={e => setArtist(e.target.value)}
             onKeyDown={enterPressed}
-          />
-          <Button onClick={getArtistIDFromName} variant='dark' style={{ whiteSpace: 'nowrap', background: "linear-gradient(45deg, #02AAB0, #00CDAC)" }}>
-            Search
-          </Button>
+            />
+            <Button  onClick={getArtistIDFromName} variant='' style={{ color: "white", whiteSpace: 'nowrap', background: "linear-gradient(45deg, #02AAB0, #00CDAC)" }}>
+              Search
+            </Button>
+            <div className="vr" />
+            <Button variant='' style={{ color: "white", whiteSpace: 'nowrap', background: "black" }}>
+              Settings
+            </Button>
         </Stack>
       </Container>
 
       {artistInfo.length !== 0 && (
-        <Container className='mt-5' style={{ whiteSpace: 'nowrap', boxShadow: "0px 0px 15px #a8ebed", borderRadius: "10px", padding:"2rem", backgroundImage: "linear-gradient(90deg, white, #00CDAC)"}}>
+        <Container className='rounded mt-5 p-3'>
           <Row>
             <Col md={8}>
               <h1 className='fs-1 fw-bold mb-1'>{artistInfo.name}</h1>
@@ -93,26 +101,31 @@ function Artist() {
                   return <Button variant='dark' key={index} className='me-2'>{genre}</Button>
                 })}
               </div>
+
+              {/* top tracks */}
+              <div className='rounded mt-5'>  
+                <ArtistTopTracks id={id} />
+              </div>
+
+              {/* albums */}
+              <div className='rounded p-3 mb-5'>  
+                <ArtistAlbums id={id} />
+              </div>
+
             </Col>
             <Col md={4}>
-              <Image src={artistInfo.images[1].url} rounded style={{width: "100%"}} />
+              <Image src={artistInfo.images[0].url} rounded style={{width: "100%"}} />
+
+              {/* related artists */}
+              <div className='rounded p-3 mb-5'>
+                <ArtistRelatedArtists id={id} />
+              </div>
+
             </Col>
           </Row>
         </Container>
 
       )}
-
-      <Container>
-        <Row>
-          <Col md={8}>
-            {/* top songs */}
-            {/* albums */}
-          </Col>
-          <Col md={4}>
-            {/* related artists */}
-          </Col>
-        </Row>
-      </Container>
 
     </div>
   )

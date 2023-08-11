@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/spotify-server/node_modules
+/spotify-server/secrets.json
