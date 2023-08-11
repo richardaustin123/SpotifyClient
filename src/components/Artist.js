@@ -81,7 +81,7 @@ function Artist() {
       </Container>
 
       {artistInfo.length !== 0 && (
-        <Container className='mt-5'>
+        <Container className='mt-5' style={{ whiteSpace: 'nowrap', boxShadow: "0px 0px 15px #a8ebed", borderRadius: "10px", padding:"2rem", backgroundImage: "linear-gradient(90deg, white, #00CDAC)"}}>
           <Row>
             <Col md={8}>
               <h1 className='fs-1 fw-bold mb-1'>{artistInfo.name}</h1>
