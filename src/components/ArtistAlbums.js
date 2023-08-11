@@ -11,7 +11,7 @@ function ArtistAlbums({ id }) {
     async function getAlbums() {
       console.log('running');
       const token = await getToken()
-      const response = await fetch(`https://api.spotify.com/v1/artists/${id}/albums?market=US&limit=8`, {
+      const response = await fetch(`https://api.spotify.com/v1/artists/${id}/albums?market=US&limit=12`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -33,7 +33,7 @@ function ArtistAlbums({ id }) {
         <Row>
           {albums.map((album, index) => {
             return (
-              <Col key={index} xs={6} md={4} lg={3}>
+              <Col key={index} xs={4} md={2} lg={2}>
                 <Card className='mb-3'>
                   <Card.Img variant="top" src={album.images[0].url} />
                   <Card.Body>

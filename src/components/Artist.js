@@ -69,7 +69,7 @@ function Artist() {
   return (
     <div className="center-div" >
       <Container>
-      <h2 className='text-start fw-semibold'>Search Artist</h2>
+      {/* <h2 className='text-start fw-semibold'>Search Artist</h2> */}
         <Stack direction="horizontal" gap={3}>
 
             <Form.Control
@@ -81,15 +81,16 @@ function Artist() {
             <Button  onClick={getArtistIDFromName} variant='' style={{ color: "white", whiteSpace: 'nowrap', background: "linear-gradient(45deg, #02AAB0, #00CDAC)" }}>
               Search
             </Button>
-            <div className="vr" />
+            {/* <div className="vr" />
             <Button variant='' style={{ color: "white", whiteSpace: 'nowrap', background: "black" }}>
               Settings
-            </Button>
+            </Button> */}
         </Stack>
       </Container>
 
       {artistInfo.length !== 0 && (
-        <Container className='rounded mt-5 p-3'>
+        <div>
+        <Container className='rounded mt-3 p-3'>
           <Row>
             <Col md={8}>
               <h1 className='fs-1 fw-bold mb-1'>{artistInfo.name}</h1>
@@ -107,23 +108,30 @@ function Artist() {
                 <ArtistTopTracks id={id} />
               </div>
 
-              {/* albums */}
-              <div className='rounded p-3 mb-5'>  
-                <ArtistAlbums id={id} />
-              </div>
-
             </Col>
             <Col md={4}>
               <Image src={artistInfo.images[0].url} rounded style={{width: "100%"}} />
 
               {/* related artists */}
-              <div className='rounded p-3 mb-5'>
+              <div className='rounded mb-5 mt-4'>
                 <ArtistRelatedArtists id={id} />
               </div>
 
             </Col>
           </Row>
         </Container>
+
+        <Container>
+          <Row>
+            <Col>
+            {/* albums */}
+              <div className='rounded mb-5'>  
+                <ArtistAlbums id={id} />
+              </div>
+            </Col>
+          </Row>
+        </Container>
+        </div>
 
       )}
 
