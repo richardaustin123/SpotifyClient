@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const secrets = require('./secrets.json');
 const { refreshToken } = require('./tokenHandler');
+const cors = require('cors');
+
+app.use(cors());
 
 const port = process.env.PORT || 6969;
 
@@ -23,6 +26,11 @@ app.get('/token', async (req, res) =>  {
         console.log('Refreshing token');
         await refreshToken();
     }
+
+    // CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    
     // return json object
     res.json({
         token: secrets.access_token
