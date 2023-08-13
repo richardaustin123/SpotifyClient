@@ -13,6 +13,7 @@ async function refreshToken() {
     });
 
     let data = await res.json();
+    console.log(data);
     secrets.access_token = data.access_token;
     secrets.tokenRefreshDate = new Date();
     fs.writeFileSync(path.join(__dirname, 'secrets.json'), JSON.stringify(secrets, null, 4));
