@@ -3,5 +3,6 @@
     "token_type": "Bearer",
     "expires_in": 3600,
     "clientId": "93a82d5e1f9243fe8ee5d873adc4f932",
-    "redirectUri": "http://localhost:3000/"
+    "redirectUri": "http://localhost:3000/",
+    "scopes": "user-read-private user-read-email user-top-read"
 }

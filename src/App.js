@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import config from './config.json'
 import Artist from './components/Artist';
+import Songs from './components/Songs';
 import Home from './components/Home';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Outlet, useLocation } from 'react-router-dom';
@@ -11,7 +12,7 @@ import ProfilePicture from './components/ProfilePicture';
 
 function App() {
 
-  let [accessToken, setAccessToken] = useState('')
+  let [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'))
 
   useEffect(() => {
 
@@ -75,16 +76,16 @@ function App() {
             <div className='d-flex flex-row'>
               <div>
                 {/* if access token is empty then show login button if not show profile picture */}
-                {accessToken ? <ProfilePicture token={accessToken} /> : <a href="https://accounts.spotify.com/authorize?client_id=93a82d5e1f9243fe8ee5d873adc4f932&response_type=code&redirect_uri=http://localhost:3000/&scope=user-library-read%20playlist-read-private%20user-read-private%20user-read-email&state=123" className='btn btn-success'>Login</a>}
+                {accessToken ? <ProfilePicture token={accessToken} /> : <a href={`https://accounts.spotify.com/authorize?client_id=93a82d5e1f9243fe8ee5d873adc4f932&response_type=code&redirect_uri=http://localhost:3000/&scope=${config.scopes}&state=123`} className='btn btn-success'>Login</a>}
               </div>
             </div>
           </Stack>
         </Navbar>
 
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home access_token={accessToken} />} />
           <Route path="/artists" element={<Artist />} />
-          {/* <Route path="/songs" element={<Songs />} /> */}
+          <Route path="/songs" element={<Songs />} />
         </Routes>
       </Router>
       </Container>
