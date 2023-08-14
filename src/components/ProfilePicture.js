@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Image } from 'react-bootstrap'
 
-function ProfilePicture() {
+function ProfilePicture({ token }) {
 
   let [profile, setProfile] = useState({})
 
@@ -26,7 +26,7 @@ function ProfilePicture() {
       return
     }
     getProfile()
-  }, [])
+  }, [token])
 
   return (
     <div className=''>

@@ -3,13 +3,15 @@ import './App.css';
 import config from './config.json'
 import Artist from './components/Artist';
 import Home from './components/Home';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Outlet, useLocation } from 'react-router-dom';
 import { Navbar, Container, Nav, Stack } from 'react-bootstrap';
 
 import ProfilePicture from './components/ProfilePicture';
 
 function App() {
+
+  let [accessToken, setAccessToken] = useState('')
 
   useEffect(() => {
 
@@ -21,22 +23,20 @@ function App() {
     }
 
     async function getAccessToken(code, redirectUri) {
-      const endpoint = 'https://accounts.spotify.com/api/token'
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}&client_id=${config.clientId}&client_secret=6c1ae53ec81e41908bedaa24933e3952`
-      })
+      const endpoint = 'http://localhost:6969/userToken'
+      // fetch access code from server
+      const response = await fetch(endpoint + `?code=${code}`)
       const data = await response.json()
       console.log(data)
+      // store all data in local storage
       localStorage.setItem('access_token', data.access_token)
       localStorage.setItem('refresh_token', data.refresh_token)
       localStorage.setItem('token_type', data.token_type)
       localStorage.setItem('expires_in', data.expires_in)
       localStorage.setItem('scope', data.scope)
       console.log("Got access token")
+      // update the state
+      setAccessToken(data.access_token)
     }
 
     // get the code and state params from the URL
@@ -48,17 +48,7 @@ function App() {
     const redirectUri = config.redirectUri
 
     // if the code and state are not present, redirect to the spotify login page
-    if (!code || !state) {
-      console.log("Redirecting to spotify login page")
-      // redirect to spotify login page
-      const scopes = "user-library-read playlist-read-private user-read-private user-read-email"
-      const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scopes}&state=123`
-      // redirect to the oauth page
-      window.location.href = url
-    }
-    // if we have the code and state, we can exchange the code for an access token (or just store if using implicit grant flow)
-    // for now just store the code and state in local storage
-    else {
+    if (code && state) {
       console.log("Storing code and state in local storage")
       localStorage.setItem('code', code)
       localStorage.setItem('state', state)
@@ -84,7 +74,8 @@ function App() {
             </Navbar.Collapse>
             <div className='d-flex flex-row'>
               <div>
-                <ProfilePicture />
+                {/* if access token is empty then show login button if not show profile picture */}
+                {accessToken ? <ProfilePicture token={accessToken} /> : <a href="https://accounts.spotify.com/authorize?client_id=93a82d5e1f9243fe8ee5d873adc4f932&response_type=code&redirect_uri=http://localhost:3000/&scope=user-library-read%20playlist-read-private%20user-read-private%20user-read-email&state=123" className='btn btn-success'>Login</a>}
               </div>
             </div>
           </Stack>
