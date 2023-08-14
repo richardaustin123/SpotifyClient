@@ -2,13 +2,8 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import config from '../config.json'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Stack from 'react-bootstrap/Stack';
-import Image from 'react-bootstrap/Image'
-import ProgressBar from 'react-bootstrap/ProgressBar'
-import Form from 'react-bootstrap/Form'
+
+import { Container, Row, Col, Stack, Image, ProgressBar, Form } from 'react-bootstrap'
 
 import { getToken } from '../handlers/tokenHandler'
 
@@ -24,6 +19,15 @@ function Artist() {
   let [artist, setArtist] = useState('')
   let [artistInfo, setArtistInfo] = useState([])
   let [id, setID] = useState('')
+
+  useEffect(() => {
+    // get the artist from local storage
+    const artist = JSON.parse(localStorage.getItem('artist'))
+    if (artist) {
+      setArtistInfo(artist)
+      setID(artist.id)
+    }
+  }, [])
 
   async function getArtistIDFromName() {
     const token = await getToken()
@@ -41,23 +45,21 @@ function Artist() {
     getArtist(data.artists.items[0].id, token)    
   }
 
-  function getArtist(id, token) {
+  async function getArtist(id, token) {
     // Get the artist from spotify API
-    fetch(endpoint + id, {
+    const response = await fetch(endpoint + id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + token
       }
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      setArtistInfo(data)
-    })
-    .catch(error => {
-      console.log(error)
-    })
 
+    const data = await response.json()
+    console.log(data)
+    setArtistInfo(data)
+
+    // save the artist to local storage
+    localStorage.setItem('artist', JSON.stringify(data))
   }
 
   function enterPressed(event) {
@@ -68,7 +70,7 @@ function Artist() {
 
   return (
     <div className="center-div" >
-      <Container>
+      <Container className='mt-4'>
       {/* <h2 className='text-start fw-semibold'>Search Artist</h2> */}
         <Stack direction="horizontal" gap={3}>
 
