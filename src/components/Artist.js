@@ -98,7 +98,7 @@ function Artist() {
               <h1 className='fs-1 fw-bold mb-1'>{artistInfo.name}</h1>
               <p className='fs-4 mb-1'>{artistInfo.followers.total.toLocaleString("en-US")} Followers</p>
               <p className='fs-5 m-0 fw-light'>Popularity</p>
-              <ProgressBar className='mt-2 mb-3 w-50' variant='info' now={artistInfo.popularity}/>
+              <ProgressBar className='mt-2 mb-3 w-50' variant='success' now={artistInfo.popularity}/>
               <div className='d-flex align-items-center'>  
                 {artistInfo.genres.map((genre, index) => {
                   return <Button variant='dark' key={index} className='me-2'>{genre}</Button>

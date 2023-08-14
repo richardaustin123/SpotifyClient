@@ -6,7 +6,7 @@ import Songs from './components/Songs';
 import Home from './components/Home';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Outlet, useLocation } from 'react-router-dom';
-import { Navbar, Container, Nav, Stack } from 'react-bootstrap';
+import { Navbar, Container, Nav, Stack, Button } from 'react-bootstrap';
 
 import ProfilePicture from './components/ProfilePicture';
 
@@ -64,7 +64,12 @@ function App() {
         <Router>
         <Navbar expand="lg">
           <Stack direction='horizontal' gap={3} className='w-100'>
-            <Navbar.Brand as={Link} to="/" className='fw-bold fs-2'>Spotifapp</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/" className='fw-bold fs-2'>
+            <div className='d-flex'>
+              <p className='m-0 text-success'>Spot</p>
+              <p className='m-0'>light</p>
+            </div>
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarNav" />
             <Navbar.Collapse id="navbarNav">
               <Nav className="mr-auto">
@@ -76,7 +81,7 @@ function App() {
             <div className='d-flex flex-row'>
               <div>
                 {/* if access token is empty then show login button if not show profile picture */}
-                {accessToken ? <ProfilePicture token={accessToken} /> : <a href={`https://accounts.spotify.com/authorize?client_id=93a82d5e1f9243fe8ee5d873adc4f932&response_type=code&redirect_uri=http://localhost:3000/&scope=${config.scopes}&state=123`} className='btn btn-success'>Login</a>}
+                {accessToken ? <ProfilePicture token={accessToken} /> : <a href={`https://accounts.spotify.com/authorize?client_id=93a82d5e1f9243fe8ee5d873adc4f932&response_type=code&redirect_uri=http://localhost:3000/&scope=${config.scopes}&state=123`} className='btn' style={{ color: "white", whiteSpace: 'nowrap', background: "linear-gradient(45deg, #02AAB0, #00CDAC)" }}>Login</a>}
               </div>
             </div>
           </Stack>

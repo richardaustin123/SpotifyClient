@@ -3,14 +3,18 @@ import { useState } from 'react';
 import { Container, Form, Button, Stack, Row, Col, Image } from 'react-bootstrap';
 import config from '../config.json'
 import { getToken } from '../handlers/tokenHandler'
+import SongsTopSongs from './SongsTopSongs';
 
 function Songs() {
 
     let endpoint = "https://api.spotify.com/v1/tracks/"
 
+    // State variables
     let [song, setSong] = useState('')
     let [songs, setSongs] = useState([])
 
+    // useEffect()
+    // When the component is mounted, get the songs from local storage
     useEffect(() => {
         // get the songs from local storage
         const songsFromLocalStorage = localStorage.getItem('songs');
@@ -21,6 +25,7 @@ function Songs() {
     }, [])
 
     // getSongFromName()
+    // Gets the song from the name typed in the search bar
     async function getSongFromName() {
         const token = await getToken();
 
@@ -39,6 +44,7 @@ function Songs() {
     }
 
     // enterPressed()
+    // If the enter key is pressed, call getSongFromName()
     function enterPressed(event) {
         if (event.key === 'Enter') { 
             getSongFromName();
@@ -46,6 +52,7 @@ function Songs() {
     }
 
     // msToMinsAndSecs()
+    // Converts song milliseconds to minutes and seconds for better formatting for the user
     function msToMinsAndSecs(milliseconds) {
         const totalSeconds = Math.floor(milliseconds / 1000);
         const minutes = Math.floor(totalSeconds / 60);
@@ -73,8 +80,8 @@ function Songs() {
             </Container>
 
             <div>
-                <Container className='mt-4'>
-                    <div className='rounded mt-5'>
+                <Container className='mt-3'>
+                    <div className='rounded mt-4'>
                         <h1 className='fw-bold mb-4'>Top Songs</h1>
                         <Container direction='horizontal' gap={3} className='mb-2'>
                         <Row className="justify-content-center align-items-center fw-light">
