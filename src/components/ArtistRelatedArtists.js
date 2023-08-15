@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { getToken } from '../handlers/tokenHandler'
+import getToken from '../handlers/tokenHandler'
 import { Card, Container, Row, Col } from 'react-bootstrap'
 
 function ArtistRelatedArtists({ id }) {

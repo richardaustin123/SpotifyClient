@@ -91,24 +91,6 @@ function Home({ access_token }) {
           // <h2>Personal feed</h2>
           // feed goes here
           <Container>
-            <h2 className='fw-bold fs-2 mb-4 mt-4'>Your Top Artists</h2>
-            <Row>
-              {topArtists.map((artist, index) => {
-                return (
-                  <Card style={{ width: '10rem' }} key={index} className='m-2 h-100' border=''>
-                    {/* <Card.Img variant="top" src={artist.images[1].url} className='object-fit-cover'/> */}
-                    <Image src={artist.images[1].url} className='' />
-                    <Card.Body>
-                      <Card.Title className='fw-semibold fs-5'>{artist.name}</Card.Title>
-                      <Card.Text className='fw-light fs-6'>
-                        {artist.genres[0]}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                )
-              })
-            }
-            </Row>
             <h2 className='fw-bold fs-2 mb-4 mt-5'>Your Top Songs</h2>
             <Container direction='horizontal' gap={3} className='mb-2'>
               <Row className="justify-content-center align-items-center fw-light">
@@ -146,6 +128,24 @@ function Home({ access_token }) {
                       </Col>
                     </Row>
                   </Container>
+                )
+              })
+            }
+            </Row>
+            <h2 className='fw-bold fs-2 mb-4 mt-4'>Your Top Artists</h2>
+            <Row>
+              {topArtists.map((artist, index) => {
+                return (
+                  <Card style={{ width: '10rem' }} key={index} className='m-2 h-100' border=''>
+                    {/* <Card.Img variant="top" src={artist.images[1].url} className='object-fit-cover'/> */}
+                    <Image src={artist.images[1].url} className='' />
+                    <Card.Body>
+                      <Card.Title className='fw-semibold fs-5'>{artist.name}</Card.Title>
+                      <Card.Text className='fw-light fs-6'>
+                        {artist.genres[0]}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
                 )
               })
             }

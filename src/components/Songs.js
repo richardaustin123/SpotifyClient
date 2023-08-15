@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Container, Form, Button, Stack, Row, Col, Image } from 'react-bootstrap';
 import config from '../config.json'
-import { getToken } from '../handlers/tokenHandler'
+import getToken from '../handlers/tokenHandler'
 import SongsTopSongs from './SongsTopSongs';
 
 function Songs() {

@@ -5,7 +5,7 @@ import config from '../config.json'
 
 import { Container, Row, Col, Stack, Image, ProgressBar, Form } from 'react-bootstrap'
 
-import { getToken } from '../handlers/tokenHandler'
+import getToken from '../handlers/tokenHandler'
 
 import ArtistTopTracks from './ArtistTopTracks'
 import ArtistAlbums from './ArtistAlbums'

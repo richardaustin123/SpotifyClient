@@ -24,7 +24,7 @@ function App() {
     }
 
     async function getAccessToken(code, redirectUri) {
-      const endpoint = 'http://localhost:6969/userToken'
+      const endpoint = 'http://139.162.211.220:6969/userToken'
       // fetch access code from server
       const response = await fetch(endpoint + `?code=${code}`)
       const data = await response.json()
